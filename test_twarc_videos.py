@@ -24,6 +24,7 @@ def test_get_youtube_tweet():
         test_data.unlink()
     t = Twarc2(bearer_token=bearer_token)
     results = next(t.search_recent('url:"https://youtu.be"'))
+    results['data'] = results['data'][0:2]
     json.dump(results, test_data.open('w'))
 
 def test_download_youtube():
@@ -40,6 +41,7 @@ def test_get_vimeo_tweet():
         test_data.unlink()
     t = Twarc2(bearer_token=bearer_token)
     results = next(t.search_recent('url:"https://vimeo.com"'))
+    results['data'] = results['data'][0:2]
     json.dump(results, test_data.open('w'))
 
 def test_download_vimeo():
