@@ -1,7 +1,7 @@
 # twarc-videos
 
-This twarc plugin uses youtbe_dl to download videos and their metadata from
-tweets.
+This twarc plugin uses [youtube_dl] to download videos and their metadata from
+tweets. youtube_dl downloads video from [more platforms] than youtube.
 
 First you need to install twarc and this plugin:
 
@@ -82,8 +82,7 @@ To run the tests you will need create a `.env` file that looks like:
 
     BEARER_TOKEN=YOUR_TOKEN_HERE
 
-[click-plugins]: https://pypi.org/project/click-plugins/
-[pytest]: https://pypi.org/project/pytest/ 
-[test_twarc_ids.py]: https://github.com/DocNow/twarc-ids/blob/main/test_twarc_ids.py
-[entry_points magic]: https://github.com/DocNow/twarc-ids/blob/main/setup.py#L20-L22
-[twarc]: https://github.com/docnow/twarc
+[twarc]: https://github.com/docnow/twarc 
+[youtube_dl]: https://youtube-dl.org/ 
+[more platforms]: http://ytdl-org.github.io/youtube-dl/supportedsites.html
+
