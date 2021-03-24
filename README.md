@@ -6,7 +6,7 @@ tweets. youtube_dl downloads video from [more platforms] than youtube.
 First you need to install twarc and this plugin:
 
     pip install twarc
-    pip install twarc-ids
+    pip install twarc-videos
 
 Now you can collect data using the core twarc utility:
 
@@ -14,7 +14,7 @@ Now you can collect data using the core twarc utility:
 
 And you have a new subcommand `videos` that is supplied by twarc-videos.
 
-    twarc videos tweets.jsonl
+    twarc2 videos tweets.jsonl
 
 Once it is finished you will have a new directory with the following structure:
 
