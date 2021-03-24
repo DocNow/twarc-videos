@@ -134,5 +134,5 @@ And then:
 
 [twarc]: https://github.com/docnow/twarc 
 [youtube_dl]: https://youtube-dl.org/ 
-[more platforms]: http://ytdl-org.github.io/youtube-dl/supportedsites.html
+[many more platforms]: http://ytdl-org.github.io/youtube-dl/supportedsites.html
 

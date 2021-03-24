@@ -5,7 +5,7 @@ with open("README.md") as f:
 
 setuptools.setup(
     name='twarc-videos',
-    version='0.0.3',
+    version='0.0.4',
     url='https://github.com/docnow/twarc-videos',
     author='Ed Summers',
     author_email='ehs@pobox.com',
