@@ -4,9 +4,8 @@ This twarc plugin uses [youtube_dl] to download videos and their metadata from
 tweets. This is nice because youtube_dl downloads video from [many more
 platforms] than YouTube including Twitter itself.
 
-To use twarc-videos first you need to install twarc and this plugin:
+To use twarc-videos first you need to install it:
 
-    pip install twarc
     pip install twarc-videos
 
 Now you can collect data using the core twarc utility. For example this search
