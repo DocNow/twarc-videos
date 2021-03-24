@@ -30,7 +30,7 @@ def test_get_youtube_tweet():
 def test_download_youtube():
     assert test_data.is_file()
     runner = CliRunner()
-    result = runner.invoke(twarc_videos.videos, ['test.json'])
+    result = runner.invoke(twarc_videos.videos, ['--timeout', 10, 'test.json'])
     assert test_videos_dir.is_dir()
     videos_dir = test_videos_dir / "youtube"
     assert videos_dir.is_dir()
@@ -47,10 +47,11 @@ def test_get_vimeo_tweet():
 def test_download_vimeo():
     assert test_data.is_file()
     runner = CliRunner()
-    result = runner.invoke(twarc_videos.videos, ['test.json'])
+    result = runner.invoke(twarc_videos.videos, ['--timeout', 10, 'test.json'])
     assert test_videos_dir.is_dir()
-    videos_dir = test_videos_dir / "vimeo"
-    assert videos_dir.is_dir()
-    assert len(list(videos_dir.iterdir())) > 0
+    videos_dir1 = test_videos_dir / "vimeo"
+    videos_dir2 = test_videos_dir / "vimeo_-ondemand"
+    assert videos_dir1.is_dir() or videos_dir2.is_dir()
+    assert len(list(videos_dir1.iterdir())) > 0 or len(list(videos_dir2.iterdir())) > 0
 
 
