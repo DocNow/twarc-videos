@@ -9,7 +9,9 @@ To use twarc-videos first you need to install twarc and this plugin:
     pip install twarc
     pip install twarc-videos
 
-Now you can collect data using the core twarc utility, for example:
+Now you can collect data using the core twarc utility. For example this search
+finds tweets that mention the word "nirvana" and also have native video
+(Twitter video) or a link to YouTube:
 
     twarc2 search 'nirvana (has:videos OR url:"https://youtu.be")' > nirvana-tweets.jsonl
 
