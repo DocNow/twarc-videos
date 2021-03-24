@@ -1,0 +1,10 @@
+Pipfile*
+.eggs
+dist
+twarc_ids.egg-info
+__pycache__
+videos
+test.json
+.env
+*egg-info
+*.log
