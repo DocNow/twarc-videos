@@ -18,9 +18,10 @@ from youtube_dl.utils import match_filter_func
 @click.option('--ignore-livestreams', is_flag=True, default=False, help='ignore livestreams')
 @click.option('--download-dir', type=str, default='videos', help='directory to download to')
 @click.option('--block', multiple=True, help='hostname(s) to block (repeatable)')
-@click.option('--timeout', type=int, default=0, help='timeout download after n seconds')
+@click.option('--timeout', type=int, default=120, help='seconds to wait for a video download to finish')
+@click.option('--quiet', is_flag=True, default=False, help='silence terminal output')
 @click.argument('infile', type=click.File('r'), default='-')
-def videos(max_downloads, max_filesize, ignore_livestreams, download_dir, block, timeout, infile):
+def videos(max_downloads, max_filesize, ignore_livestreams, download_dir, block, timeout, infile, quiet):
     """
     Download videos referenced in tweets and their metadata.
     """
@@ -106,13 +107,16 @@ def videos(max_downloads, max_filesize, ignore_livestreams, download_dir, block,
                     # otherwise sleep and the check again
                     time.sleep(1)
 
+                p.join()
+
                 # if the queue was empty there either wasn't a download or it timed out
                 if q.empty():
                     filename = ''
                 else:
                     filename = q.get()
 
-                p.join()
+                if not quiet and filename:
+                    click.echo(f'downloaded {click.Style(url, fg="blue")} as {click.Style(filename, fg="green")}', file=outfile)
 
                 # write the result to the mapping file
                 results.write("{}\t{}\n".format(url, filename))
@@ -131,15 +135,17 @@ def video_urls(t):
 
 
 def download(url, q, ydl_opts, log, max_downloads):
+    filename = ""
     try:
         ydl = youtube_dl.YoutubeDL(ydl_opts)
         info = ydl.extract_info(url)
         if info:
             filename = ydl.prepare_filename(info)
-            log.info('downloaded %s as %s', url, filename)
+            logging.info('downloaded %s as %s', url, filename)
         else:
-            filename = ""
             logging.warning("%s doesn't look like a video", url)
     except youtube_dl.utils.MaxDownloadsReached as e:
         logging.warning('only %s downloads per url allowed', max_downloads)
+
+    return filename
 
