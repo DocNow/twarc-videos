@@ -88,10 +88,12 @@ def videos(max_downloads, max_filesize, ignore_livestreams, download_dir, block,
                     logging.warn("%s in block list", url)
                     continue
 
-                # set up a multiprocessing queue to manage the download with a timeout
                 log.info('processing %s', url)
-                q = mp.Queue()
-                p = mp.Process(target=download, args=(url, q, ydl_opts, log, max_downloads))
+   
+                manager = mp.Manager()
+                return_list = manager.list()
+
+                p = mp.Process(target=download, args=(url, ydl_opts, log, max_downloads, return_list))
                 p.start()
 
                 started = datetime.now()
@@ -110,13 +112,10 @@ def videos(max_downloads, max_filesize, ignore_livestreams, download_dir, block,
                 p.join()
 
                 # if the queue was empty there either wasn't a download or it timed out
-                if q.empty():
-                    filename = ''
-                else:
-                    filename = q.get()
+                filename = return_list.pop() if len(return_list) > 0 else None
 
                 if not quiet and filename:
-                    click.echo(f'downloaded {click.Style(url, fg="blue")} as {click.Style(filename, fg="green")}', file=outfile)
+                    click.echo(f'downloaded {click.style(url, fg="blue")} as {click.style(filename, fg="green")}')
 
                 # write the result to the mapping file
                 results.write("{}\t{}\n".format(url, filename))
@@ -134,18 +133,18 @@ def video_urls(t):
         yield url['expanded_url']
 
 
-def download(url, q, ydl_opts, log, max_downloads):
-    filename = ""
+def download(url, ydl_opts, log, max_downloads, return_list):
     try:
         ydl = youtube_dl.YoutubeDL(ydl_opts)
         info = ydl.extract_info(url)
         if info:
             filename = ydl.prepare_filename(info)
-            logging.info('downloaded %s as %s', url, filename)
+            if os.path.isfile(filename):
+                return_list.append(filename)
+                logging.info('downloaded %s as %s', url, filename)
         else:
             logging.warning("%s doesn't look like a video", url)
     except youtube_dl.utils.MaxDownloadsReached as e:
         logging.warning('only %s downloads per url allowed', max_downloads)
 
-    return filename
 
