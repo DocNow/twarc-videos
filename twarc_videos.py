@@ -122,6 +122,9 @@ def videos(max_downloads, max_filesize, ignore_livestreams, download_dir, block,
 
 def video_urls(t):
 
+    if 'entities' not in t:
+        return
+
     # if video is attached to the tweet return the tweet url
     attachments = t['entities'].get('attachments', {})
     for media in attachments.get('media', []):
