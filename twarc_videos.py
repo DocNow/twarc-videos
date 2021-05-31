@@ -8,7 +8,7 @@ import youtube_dl
 import multiprocessing as mp
 
 from urllib.parse import urlparse
-from twarc.expansions import flatten
+from twarc import ensure_flattened
 from datetime import datetime, timedelta
 from youtube_dl.utils import match_filter_func
 
@@ -74,7 +74,7 @@ def videos(max_downloads, max_filesize, ignore_livestreams, download_dir, block,
     # loop through the tweets
     results = open(mapping_file, 'a')
     for line in infile:
-        for tweet in flatten(json.loads(line))['data']:
+        for tweet in ensure_flattened(json.loads(line)):
             log.info('analyzing %s', tweet['id'])
             for url in video_urls(tweet):
                 if url in seen:

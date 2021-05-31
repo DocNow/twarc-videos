@@ -5,7 +5,7 @@ with open("README.md") as f:
 
 setuptools.setup(
     name='twarc-videos',
-    version='0.0.5',
+    version='0.0.6',
     url='https://github.com/docnow/twarc-videos',
     author='Ed Summers',
     author_email='ehs@pobox.com',
@@ -14,7 +14,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     python_requires='>=3.3',
-    install_requires=['twarc', 'youtube_dl', 'click'],
+    install_requires=['twarc>=2.1.1', 'youtube_dl', 'click'],
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'python-dotenv'],
     entry_points='''
